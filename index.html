@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockPro | Business Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="logo-mark"></div>
+            <span>Stock<b>BI</b></span>
+        </div>
+        
+        <nav class="nav-menu">
+            <button class="nav-btn active" onclick="switchTab('dash')"><i data-lucide="layout-grid"></i> Dashboard</button>
+            <button class="nav-btn" onclick="switchTab('inventory')"><i data-lucide="database"></i> Inventário</button>
+            <button class="nav-btn" onclick="switchTab('reports')"><i data-lucide="pie-chart"></i> Relatórios</button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="avatar">MM</div>
+            <div class="user-info">
+                <p>Matheus M.</p>
+                <span>Administrator</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="viewport">
+        <header class="top-bar">
+            <div class="header-text">
+                <h1 id="page-title">Intelligence Overview</h1>
+                <p id="live-clock">Sincronizado</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-primary" onclick="openModal()">+ Novo Registro</button>
+            </div>
+        </header>
+
+        <div id="tab-dash" class="tab-content active">
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-label">Volume Total</span>
+                    <h2 id="kpi-total">0</h2>
+                </div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Valor Patrimonial</span>
+                    <h2 id="kpi-worth">R$ 0,00</h2>
+                </div>
+                <div class="kpi-card alert">
+                    <span class="kpi-label">Itens Críticos</span>
+                    <h2 id="kpi-alerts">0</h2>
+                </div>
+            </section>
+
+            <section class="viz-grid">
+                <div class="chart-box">
+                    <h3>Asset Allocation</h3>
+                    <div class="chart-wrapper-doughnut">
+                        <canvas id="chartDoughnut"></canvas>
+                        <div id="doughnut-legend" class="custom-legend"></div>
+                    </div>
+                </div>
+                <div class="chart-box">
+                    <h3>Stock Velocity</h3>
+                    <canvas id="chartBar"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <div id="tab-inventory" class="tab-content">
+            <section class="table-section glass">
+                <div class="table-header">
+                    <input type="text" id="searchTable" placeholder="Filtrar produtos..." onkeyup="filterTable()">
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ativo</th>
+                                <th>Categoria</th>
+                                <th>Qtd</th>
+                                <th>Preço Unit.</th>
+                                <th>Status</th>
+                                <th style="text-align:right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <div id="tab-reports" class="tab-content">
+            <section class="reports-section glass">
+                <h3>Exportação de Dados</h3>
+                <p>Gere relatórios detalhados do seu inventário em formato CSV para Excel.</p>
+                <div class="report-actions">
+                    <button class="btn-report" onclick="exportData()">
+                        <i data-lucide="download"></i> Baixar Relatório .CSV
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal-card">
+            <h3>Novo Ativo</h3>
+            <div class="form-body">
+                <input type="text" id="p-name" placeholder="Nome do Produto">
+                <select id="p-cat">
+                    <option value="Hardware">Hardware</option>
+                    <option value="Software">Software</option>
+                    <option value="Infra">Infraestrutura</option>
+                </select>
+                <input type="number" id="p-qty" placeholder="Quantidade">
+                <input type="number" id="p-price" placeholder="Preço Unitário">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-ghost" onclick="closeModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveRecord()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
